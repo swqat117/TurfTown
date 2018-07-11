@@ -38,9 +38,9 @@ class OrderDetails extends Component {
       <Text style={styles.q}>Venue : {this.props.brandName} {this.props.brandLocation}</Text>
 
        <Text style={styles.s}>Total</Text>
-       <Text style={styles.r}>{this.state.price}</Text>
+       <Text style={styles.r}>{this.props.slotPrice}</Text>
        <RadioGroup
-        onSelect = {(index, value) => this.props.onSelectRadioOption(index,valu)}
+        onSelect = {(index, value) => this.props.onSelectRadioOption(index,value)}
         color='#0D47A1AA'
         highlightColor='transparent'
         selectedIndex={0}

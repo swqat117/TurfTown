@@ -7,6 +7,12 @@ import CouponTab from './CouponTab'
 import OrderDetails from './OrderDetails'
 import TeamSelectTab from './TeamSelectTab'
 
+
+const bookingConfirmationDetails = [{
+
+
+}];
+
 export class ConfirmationScreen extends Component {
   
 
@@ -30,15 +36,13 @@ export class ConfirmationScreen extends Component {
         super(props)
       
         this.state = {
-           bookingInfo : this.props.navigation.getParam('totalBill', 'NO-VENUE')
+           bookingInfo : this.props.navigation.getParam('totalBill', 'NO-VENUE'),
         }
         console.log(this.state.bookingInfo)
       }
       
       
      componentWillUpdate(){
-      this.setState({bookingInfo :this.props.navigation.getParam('totalBill', 'NO-VENUE')})
-      console.log(this.state.bookingInfo)
       
      } 
       moveToConfirmtionPage() {
@@ -60,15 +64,15 @@ export class ConfirmationScreen extends Component {
     }
 
     _onSelect = (index, value) => {
-      if (index === 0) {
-        this.setState({
-          this.state.bookingInfo.price='500'
-        })
-      } else {
-        this.setState({
-          this.state.bookingInfo.price='1500'
-      })
+      let x = this.state.bookingInfo;   
+      if (index != 0){
+        x.payablePrice = this.state.bookingInfo.reservationPrice ;
+      }else{
+        x.payablePrice = this.state.bookingInfo.price;
       }
+      console.log(index);
+      console.log(x);
+      this.setState({bookingInfo:x});
   }
     
     
@@ -77,20 +81,21 @@ export class ConfirmationScreen extends Component {
       <View style={styles.container}>
       <View  style={{flex:1}}>
 
-      <PaymentMethod name='Payment Method' onPress={this._paymentModal}/>
+      <PaymentMethod name='Paym' onPress={this._paymentModal}/>
 
       <CouponTab couponNumber='8' couponText='coupons available' name='Coupon Tab' onPress={this._couponModal}/>
 
       <OrderDetails name='Order Details' date={this.state.bookingInfo.selectedDateSlotInWords} timeOfDay='Morning' time={this.state.bookingInfo.selectedTimeSlot}
-                    ampm={this.state.bookingInfo.zone} slotLength='2 hours' brandName={this.state.bookingInfo.bookingVenue} brandLocation={this.state.bookingInfo.bookingVenueLocation} slotPrice={this.state.bookingInfo.price}
-                    slotReservationPrice='500' paymentOption1='Pay Full Amount'
+                    ampm={this.state.bookingInfo.zone} slotLength='2 hours' brandName={this.state.bookingInfo.bookingVenue} brandLocation={this.state.bookingInfo.bookingVenueLocation} price={this.state.bookingInfo.price}
+                    slotReservationPrice={this.state.bookingInfo.slotReservationPrice} paymentOption1='Pay Full Amount'
                     paymentOption2='Pay Rs 500 to reserve the slot.The rest can be paid at the respective venue.'
+                    slotPrice={this.state.bookingInfo.payablePrice}
                     onSelectRadioOption={this._onSelect}/>
       
       <TeamSelectTab  selectTeam='Select Team' onPress={this._selectTeam}/>
       </View>
       <ConfirmationBar style={{position:'absolute',bottom:0,}} onItemClick={this.moveToConfirmtionPage}
-                        price={this.state.bookingInfo.slotPrice}/>
+                        price={this.state.bookingInfo.payablePrice}/>
     </View>
   );
 }

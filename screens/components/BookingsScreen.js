@@ -96,6 +96,8 @@ var totalBill =
   zone:null,
   currency:null,
   reservationPrice:null,
+  payablePrice:null
+
 };
 var bill = 0;
 var a  = [];
@@ -163,6 +165,7 @@ export class BookingsScreen extends Component {
 
           if(x.item[smh].toggle){
             y.price += 1500;
+            y.payablePrice +=1500;
             y.reservationPrice += (1500*.1)
             y.count+= 1;
             a.push(x.item[smh].time);
@@ -192,7 +195,8 @@ export class BookingsScreen extends Component {
          y.currency = this.convertUnicode('\u20b9');
          y.bookingVenue = this.props.navigation.getParam('venueName','NO-VENUE');   
          y.bookingVenueLocation = this.props.navigation.getParam('venueLocation','NO_VENUE');
-          this.setState({x});
+        
+         this.setState({x});
           this.setState({y});
           
         
